@@ -1,9 +1,5 @@
 pipeline {     
-    agent {
-        docker { 
-            image 'python:3.10-slim' 
-        }
-    }
+    agent any
         
     environment {
         PYENV_HOME = "${WORKSPACE}/welcome/app/flask-volt-dashboard/.pyenv"
@@ -25,9 +21,18 @@ pipeline {
                     script {
                         sh '''
                             rm -rf .pyenv
-                            python3 -m venv .pyenv
+                            virtualenv .pyenv
                             . .pyenv/bin/activate
                             pip install --upgrade pip
+                            pip install setuptools
+                            
+                            # Install the fixed Python 3.13 fork of the html-minimizer
+                            pip install htmlmin2
+                            
+                            # Remove the crashing old htmlmin dependency from requirements.txt line before installing
+                            sed -i '/Flask-Minify/d' requirements.txt
+                            
+                            # Install the rest of the dependencies safely
                             pip install -r requirements.txt
                         '''
                     }
