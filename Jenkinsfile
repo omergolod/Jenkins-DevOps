@@ -24,6 +24,7 @@ pipeline {
                             . .pyenv/bin/activate
                             pip install --upgrade pip
                             pip install setuptools
+                            pip install legacy-cgi
                             pip install -r requirements.txt
                         '''
                     }
