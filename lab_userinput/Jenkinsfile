@@ -52,7 +52,7 @@ pipeline {
                     if (env.USER_CHOICE == 'Proceed') {
                         echo 'Pipeline completed successfully'
                     } else {
-                        echo 'Pipeline aborted by the user'
+                        echo 'Pipeline aborted by the QA team'
                     }
                 }
             }
