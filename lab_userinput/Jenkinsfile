@@ -40,7 +40,7 @@ pipeline {
             }
             steps {
                 script {
-                    error 'Pipeline aborted by the user'
+                    error 'Pipeline aborted by the QA team'
                 }
             }
         }
