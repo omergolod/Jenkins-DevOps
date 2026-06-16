@@ -13,6 +13,7 @@ pipeline {
                 script {
                     sh '''
                     echo "dummy log content" > flask_app.log
+                    cat flask_app.log
                     '''
                  }
             }
