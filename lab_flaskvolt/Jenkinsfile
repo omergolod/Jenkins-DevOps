@@ -28,7 +28,7 @@ pipeline {
                             pip install --upgrade pip
                             pip install setuptools
                             
-                            # Install fixed Python 3.13 fork of htmlmin
+                            # START: Python 3.13 compatibility changes
                             pip install htmlmin2
                             
                             # Remove the crashing old htmlmin and rewrite SQLAlchemy version for Python 3.13 support
@@ -37,6 +37,10 @@ pipeline {
                             
                             # Install the rest of the dependencies safely
                             pip install -r requirements.txt
+                            pip install Flask-Minify==0.37 --no-deps
+                            pip install xxhash jsmin lesscpy rcssmin 
+                            # END: Python 3.13 compatibility changes
+                            
                         '''
                     }
                 }
