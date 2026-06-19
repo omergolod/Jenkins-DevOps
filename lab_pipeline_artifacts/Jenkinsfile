@@ -1,18 +1,36 @@
 pipeline {
     agent any
-
+    environment {
+        PYENV_HOME = "${WORKSPACE}/welcome/app/flask-volt-dashboard/.pyenv"
+        PROJECT_HOME = "${WORKSPACE}/welcome/app/flask-volt-dashboard"
+        FLASK_APP = 'run.py'
+        FLASK_ENV = 'development'
+    }
     stages {
         stage('Run Application') {
             steps {
-                echo 'Starting Flask application...'
+                echo 'Starting Flask application'
+                script {
+                    sh '''
+                    echo "dummy log content" > ${PROJECT_HOME}/flask_app.log
+                    cat ${PROJECT_HOME}/flask_app.log
+                    '''
+                 }
             }
         }
+    stage('Archive Artifacts') {
+        steps {
+            dir("${PROJECT_HOME}") {
+            archiveArtifacts artifacts: 'flask_app.log', allowEmptyArchive: true
+        }
+    }
+}
 
         stage('Wait for User Approval') {
             steps {
                 script {
                     // Wait for user interaction and store the result
-                    def userInput = input message: 'Is the application running successfully?',
+                    def userInput = input message: 'QA team Is the application running successfully?',
                                          parameters: [choice(name: 'Proceed', choices: 'Proceed\nAbort', description: 'Choose an option')]
                     // Set a variable based on user input
                     env.USER_CHOICE = userInput
@@ -40,7 +58,7 @@ pipeline {
             }
             steps {
                 script {
-                    error 'Pipeline aborted by the user'
+                    error 'Pipeline aborted by the QA team'
                 }
             }
         }
@@ -52,7 +70,7 @@ pipeline {
                     if (env.USER_CHOICE == 'Proceed') {
                         echo 'Pipeline completed successfully'
                     } else {
-                        echo 'Pipeline aborted by the user'
+                        echo 'Pipeline aborted by the QA team'
                     }
                 }
             }
