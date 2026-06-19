@@ -23,17 +23,6 @@ pipeline {
         }
     }
 }
-
-
-
-        stage('Continue the pipeline') {
-            steps {
-                script {
-                    echo 'Continuing the pipeline...'
-                }
-            }
-        }
-
     
         // Run this stage regardless of the user choice but we will check the user choice in the stage and print a message
         stage('Finalize the Pipeline') {
