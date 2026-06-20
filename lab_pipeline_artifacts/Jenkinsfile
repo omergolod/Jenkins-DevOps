@@ -88,8 +88,16 @@ pipeline {
                 }
             }
         }
+          stage('Archive Artifacts') {
+        steps {
+            dir("${PROJECT_HOME}") {
+            archiveArtifacts artifacts: 'flask_app.log', allowEmptyArchive: true
+                echo 'archiving flask_app.log'
+        }
     }
-
+}
+    }
+  
     post {
         always {
             dir("${PROJECT_HOME}") {
